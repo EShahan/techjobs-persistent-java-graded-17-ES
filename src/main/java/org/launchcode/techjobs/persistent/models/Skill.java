@@ -1,7 +1,12 @@
 package org.launchcode.techjobs.persistent.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Skill extends AbstractEntity {
@@ -9,12 +14,24 @@ public class Skill extends AbstractEntity {
     @Size(min = 3, max = 280)
     private String description;
 
-    public Skill(String description) {
+    @ManyToMany(mappedBy = "skills")
+    private List<Job> jobs = new ArrayList<>();
+
+    public Skill(String description, List<Job> jobs) {
         this.description = description;
+        this.jobs = jobs;
     }
 
     public Skill() {
 
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
     }
 
     public String getDescription() {
